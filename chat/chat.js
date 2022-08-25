@@ -1,11 +1,11 @@
-import { addComment, getComment, onComment } from '../fetch-utils.js';
-import { renderComments } from '../render-utils.js';
+import { addComment, getComments, onComment } from '../fetch-utils.js';
+import { renderComment } from '../render-utils.js';
 
 const chatForm = document.querySelector('.chat-form');
 
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = new FormData(chatForm)
+    const data = new FormData(chatForm);
 
     const response = await addComment({
         text: data.get('text')
@@ -14,6 +14,11 @@ chatForm.addEventListener('submit', async (e) => {
 
     return response.data;
 
+
+
+
+
+
 });
 
 const commentContainer = document.querySelector('.comment-container');
@@ -21,12 +26,12 @@ const commentContainer = document.querySelector('.comment-container');
 async function displayComments() {
     commentContainer.innerHTML = '';
 
-    const response = await getComment('text');
-    console.log("hello", response);
-    const ul = renderComments(response);
-
-    commentContainer.append(ul);
-
+    const response = await getComments();
+    const comments = response.data;
+    for (let item of comments) {
+        const ul = renderComment(item);
+        commentContainer.append(ul);
+    }
 }
 displayComments();
 
