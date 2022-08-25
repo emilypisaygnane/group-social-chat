@@ -8,32 +8,40 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <title>Document</title>
 </head>
+
 <body>
+    <header class="page-header">
+        <img class="logo" src="/assets/html_css_js.png">
+        <p class="title">Supabase Web App</p>
+        <nav>
+            <a id="sign-out-link" href="auth">Sign Out</a>
+        </nav>
+    </header>
+    <div>
+        <form class="profile-form">
+            <h2>Create Profile:</h2>
+            <label class="top">
+                <div>Username:</div>
+                <input type="text" name="username" required placeholder="Enter Username">
+            </label>
 
-    <form class="profile-form">
-        <h2>Create Profile:</h2>
-        <label class="top">
-            <div>Username:</div>
-            <input type="text" name="username" required placeholder="Enter Username">
-        </label>
+            <label class="middle">
+                <div>Avatar Upload</div>
+                <input type="file" name="avatar">
+                <img src="" alt="avatar preview" class="avatar" id="avatar-preview">
+            </label>
 
-        <label class="middle">
-            <div>Avatar Upload</div>
-            <input type="file" name="avatar">
-            <img src="" alt="avatar preview" class="avatar" id="avatar-preview">
-        </label>
+            <label class="bottom">
+                <div>Bio</div>
+                <textarea name="bio" cols="30" rows="10" required placeholder="Enter details about yourself!"></textarea>
+            </label>
 
-        <label class="bottom">
-            <div>Bio</div>
-            <textarea name="bio" cols="30" rows="10" required placeholder="Enter details about yourself!"></textarea>
-        </label>
-
-        <button class="profile-submit">Submit</button>
-    </form>
+            <button class="profile-submit">Submit</button>
+        </form>
+    </div>
 
 
-
-    <script type="module" src="app.js"></script>
+    <script type="module" src="../app.js"></script>
     <script type="module" src="profile.js"></script>
 </body>
 </html>
