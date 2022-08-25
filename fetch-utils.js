@@ -84,11 +84,11 @@ export async function addComment(comment) {
 export async function getComment(id) {
     return await client
         .from('chat')
-        .select(`'*', profile:profiles(*)`)
-        .match({ id })
-        .single();
+        .select('*')
+        .match({ id });
+        // .single();
 }
-
+console.log(getComment(1));
 export function onComment(postId, handleNewComment) {
     client
         .from(`comments:post_id=eq${postID}`)
