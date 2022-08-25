@@ -74,3 +74,25 @@ export async function uploadImage(bucketName, imageFile, imageName) {
     return url;
 }
 
+export async function addComment(comment) {
+    return await client
+        .from('chat')
+        .insert(comment)
+        .single();
+}
+
+export async function getComment(id) {
+    return await client
+        .from('chat')
+        .select(`'*', profile:profiles(*)`)
+        .match({ id })
+        .single();
+}
+
+export function onComment(postId, handleNewComment) {
+    client
+        .from(`comments:post_id=eq${postID}`)
+        .on('INSERT', handleNewComment)
+        .subscribe();
+}
+
