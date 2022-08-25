@@ -47,11 +47,30 @@ function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
 
-export async function createProfile(profile) {
+export async function updateProfile(profile) {
     const response = await client
         .from('profiles')
-        .insert(profile)
+        .upsert(profile)
         .single();
 
     return checkError(response);
 }
+
+export async function uploadImage(bucketName, imageFile, imageName) {
+
+    const bucket = client.storage.from(bucketName);
+
+    const response = await bucket.upload(imageName, imageFile, {
+        cacheControl: '3600',
+        upsert: true,
+    });
+
+    if (response.error) {
+        console.log(response.error);
+        return null;
+    }
+    const url = `${SUPABASE_URL}/storage/v1/object/public/${response.data.Key}`;
+
+    return url;
+}
+
