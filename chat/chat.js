@@ -1,4 +1,4 @@
-import { addComment, getComments, onComment } from '../fetch-utils.js';
+import { addComment, getComments, realTime } from '../fetch-utils.js';
 import { renderComment } from '../render-utils.js';
 
 const chatForm = document.querySelector('.chat-form');
@@ -10,14 +10,10 @@ chatForm.addEventListener('submit', async (e) => {
     const response = await addComment({
         text: data.get('text')
     });
+
     console.log(response);
 
     return response.data;
-
-
-
-
-
 
 });
 
@@ -33,5 +29,8 @@ async function displayComments() {
         commentContainer.append(ul);
     }
 }
+realTime(displayComments);
 displayComments();
+
+
 

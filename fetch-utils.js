@@ -90,9 +90,9 @@ export async function getComments() {
 }
 console.log(getComments());
 
-export function onComment(postId, handleNewComment) {
+export function realTime(handleNewComment) {
     client
-        .from(`comments:post_id=eq${postID}`)
+        .from('chat')
         .on('INSERT', handleNewComment)
         .subscribe();
 }
