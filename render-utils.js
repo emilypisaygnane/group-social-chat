@@ -5,7 +5,7 @@ export function renderComment(comment) {
 
     div.classList.add('chat-bubble');
 
-    p.textContent = comment.text;
+    p.textContent = `${comment.profile.user_name} ${comment.text}`;
     
     div.append(p);
 

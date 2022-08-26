@@ -84,7 +84,7 @@ export async function addComment(comment) {
 export async function getComments() {
     return await client
         .from('chat')
-        .select('*');
+        .select(`*, profile: profiles(id, user_name)`);
         // .match({ id });
         // .single();
 }
