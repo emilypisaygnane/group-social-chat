@@ -1,5 +1,5 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://hvbgkvbafgvsatqlesna.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2YmdrdmJhZmd2c2F0cWxlc25hIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjEyOTU3MTYsImV4cCI6MTk3Njg3MTcxNn0.N-IG55-eTO1A_uOwUe9xr9xbhi04MW_5BqWqln4SRI8';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -43,3 +43,56 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+function checkError({ data, error }) {
+    return error ? console.error(error) : data;
+}
+
+export async function updateProfile(profile) {
+    const response = await client
+        .from('profiles')
+        .upsert(profile)
+        .single();
+
+    return checkError(response);
+}
+
+export async function uploadImage(bucketName, imageFile, imageName) {
+
+    const bucket = client.storage.from(bucketName);
+
+    const response = await bucket.upload(imageName, imageFile, {
+        cacheControl: '3600',
+        upsert: true,
+    });
+
+    if (response.error) {
+        console.log(response.error);
+        return null;
+    }
+    const url = `${SUPABASE_URL}/storage/v1/object/public/${response.data.Key}`;
+
+    return url;
+}
+
+export async function addComment(comment) {
+    return await client
+        .from('chat')
+        .insert(comment)
+        .single();
+}
+
+export async function getComments() {
+    return await client
+        .from('chat')
+        .select(`*, profile: profiles(id, user_name)`);
+        // .match({ id });
+        // .single();
+}
+console.log(getComments());
+
+export function onComment(postId, handleNewComment) {
+    client
+        .from(`comments:post_id=eq${postID}`)
+        .on('INSERT', handleNewComment)
+        .subscribe();
+}
